@@ -12,7 +12,7 @@ const inspect = x => {
 const sketch = p => {
   const x = 100;
   const y = 100;
-  const numAgents = 50;
+  const numAgents = 225;
   let flock = [];
   let updateWorkerPool;
   let lastFrameTime = Date.now();
@@ -23,28 +23,16 @@ const sketch = p => {
     for (let i = 0; i < numAgents; i++) {
       flock.push(Agent.create(p.random(0, p.width), p.random(0, p.height)));
     }
-
-    updateWorkerPool = WP.create("worker.js");
   };
 
   p.draw = () => {
-    p.background(225);
+    p.background(235);
 
-    Flock.runConcurrent(updateWorkerPool, p, flock).then(f => {
-      flock = f;
-    });
-
-    // updateWorkerPool
-    //   .post({
-    //     flock,
-    //     sketchData: { width: p.width, height: p.height }
-    //   })
-    //   .then(f => (flock = f));
-
+    p.fill(Agent.fill);
+    p.stroke(Agent.stroke);
+    p.strokeWeight(Agent.strokeWeight);
+    flock = Flock.run(p, flock);
     Flock.render(p, flock);
-
-    console.log("fps", 1000 / (Date.now() - lastFrameTime));
-    lastFrameTime = Date.now();
   };
 };
 

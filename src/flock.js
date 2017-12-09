@@ -25,7 +25,7 @@ const partitionArray = (arr, sections) => {
 const Flock = {
   create: a => (Array.isArray(a) ? a : []),
   add: (flock, agent) => [...flock, agent],
-  run: (p, flock) => flock.map(a => Agent.run(p, a)),
+  run: (p, flock) => flock.map(a => Agent.run(p, a, flock)),
   render: (p, flock) => flock.map(a => Agent.render(p, a)),
   runConcurrent: (pool, { width, height }, flock) => {
     //return pool.post({ sketchData: { width, height }, agents: flock });
